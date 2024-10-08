@@ -10,7 +10,6 @@ private:
 	std::string normalText;
 	int passwordLength;
 	bool encrypt = false;
-
 	void findPrimes() {
 		for (int i = 2; i <= passwordLength; i++) {
 			bool isPrime = true;
@@ -27,7 +26,7 @@ public:
 		passwordLength = passwordText.length();
 		findPrimes();
 	}
-	//aHMeTgAmetR
+	
 	void getPrimes() {
 		for (int prime : primeNumbers) {
 			std::cout << prime << std::endl;
@@ -43,7 +42,6 @@ public:
 		}
 	}
 	void encryption() {
-		//ebubekir {'b','u','e','i'} --> bueiebkr
 		for (int i = 1; i <= passwordLength; i++) {
 			if (find(primeNumbers.begin(), primeNumbers.end(), i) != primeNumbers.end()) {
 				primeText += passwordText[i - 1];
@@ -58,7 +56,6 @@ public:
 	void unencryption() {
 		passwordText = passwordTextFirstVersion;
 		encrypt = false;
-
 	}
 };
 
@@ -66,15 +63,15 @@ public:
 int main() {
 	setlocale(LC_ALL, "Turkish");
 	std::string sifre;
-	std::cout << "*** Þifre kodlayýcý ***" << std::endl;
-	std::cout << "Þifre giriniz: ";
-	std::cin >> sifre; // kullanýcýdan þifre girdisi alýnýyor
-	Password ps(sifre); // constructor kullanýlarak Password classýnda yeni bir obje tanýmlanýyor
-	ps.getPrimes(); // girilen þifrenin uzunluðuna x dersek, 2'den x'e kadar olan asal sayýlarý ekrana yazdýrýyoruz
-	ps.encryption(); // þifre kodlanýyor(encryption)
-	ps.getPassword(); // þifre ekrana basýlýyor
-	ps.unencryption(); // þifre eski haline getiriliyor(unencryption)
-	ps.getPassword(); // þifre ekrana basýlýyor
+	std::cout << "*** sifre kodlayÃ½cÃ½ ***" << std::endl;
+	std::cout << "sifre giriniz: ";
+	std::cin >> sifre; // kullanicidan sifre girdisi aliniyor
+	Password ps(sifre); // constructor kullanilarak Password classinda yeni bir obje tanimlaniyor
+	ps.getPrimes(); // girilen sifrenin uzunluguna x dersek, 2'den x'e kadar olan asal sayilari ekrana yazdiriyoruz
+	ps.encryption(); // sifre kodlaniyor(encryption)
+	ps.getPassword(); // sifre ekrana basiliyor
+	ps.unencryption(); // sifre eski haline getiriliyor(unencryption)
+	ps.getPassword(); // sifre ekrana basiliyor
 
 	return 0;
 }
