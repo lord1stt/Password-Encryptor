@@ -61,9 +61,8 @@ public:
 
 
 int main() {
-	setlocale(LC_ALL, "Turkish");
 	std::string sifre;
-	std::cout << "*** sifre kodlayýcý ***" << std::endl;
+	std::cout << "*** sifre kodlayici ***" << std::endl;
 	std::cout << "sifre giriniz: ";
 	std::cin >> sifre; // kullanicidan sifre girdisi aliniyor
 	Password ps(sifre); // constructor kullanilarak Password classinda yeni bir obje tanimlaniyor
