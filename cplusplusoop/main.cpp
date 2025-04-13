@@ -1,15 +1,12 @@
 #include <iostream>
-#include <vector>
-
+#include <vector> 
+#include <string>
 class Password {
 private: 
-	std::string passwordText;
-	std::string passwordTextFirstVersion;
+	std::string passwordText, startPasswordText,encryptedText,decryptedText;
 	std::vector<int> primeNumbers; 
-	std::string primeText;
-	std::string normalText;
+	std::string primeText, normalText;
 	int passwordLength;
-	bool encrypt = false;
 	void findPrimes() {
 		for (int i = 2; i <= passwordLength; i++) {
 			bool isPrime = true;
@@ -22,26 +19,22 @@ private:
 public:
 	Password(std::string _passwordText) {
 		passwordText = _passwordText;
-		passwordTextFirstVersion = passwordText;
+		startPasswordText = passwordText;
 		passwordLength = passwordText.length();
 		findPrimes();
 	}
-	
-	void getPrimes() {
-		for (int prime : primeNumbers) {
-			std::cout << prime << std::endl;
+	void PrintPrimes() {
+		std::cout << "prime numbers: ";
+		for (int i = 0; i < primeNumbers.size(); i++) {
+			if (i == primeNumbers.size() - 1) {
+				std::cout << primeNumbers.at(i) << std::endl;
+			}
+			else {
+				std::cout << primeNumbers.at(i) << ", ";
+			}
 		}
 	}
-	void getPassword() {
-		std::cout << "Password: " << passwordText << "\tEncryption: ";
-		if (encrypt) {
-			std::cout << "True" << std::endl;
-		}
-		else {
-			std::cout << "False" << std::endl;
-		}
-	}
-	void encryption() {
+	void Encrypt() {
 		for (int i = 1; i <= passwordLength; i++) {
 			if (find(primeNumbers.begin(), primeNumbers.end(), i) != primeNumbers.end()) {
 				primeText += passwordText[i - 1];
@@ -50,27 +43,50 @@ public:
 				normalText += passwordText[i - 1];
 			}
 		}
-		passwordText = primeText + normalText;
-		encrypt = true;
+		encryptedText = primeText + normalText;
+		std::cout << "Encrypted password: " << this->encryptedText << std::endl;
 	}
-	void unencryption() {
-		passwordText = passwordTextFirstVersion;
-		encrypt = false;
+	void Decrypt() {
+		std::string primePart,nonPrimePart;
+		int lenPrimes = primeNumbers.size(); 
+		int ip=0, inp = 0;
+		nonPrimePart = passwordText.substr(lenPrimes,passwordLength-lenPrimes);
+		primePart = passwordText.substr(0,lenPrimes);
+		for (int i = 1; i <= passwordLength; i++) {
+			if (find(primeNumbers.begin(), primeNumbers.end(), i) != primeNumbers.end()) {
+				decryptedText += primePart[ip];
+				ip++;
+			}
+			else {
+				decryptedText += nonPrimePart[inp];
+				inp++;
+			}
+		}
+		std::cout << "Decrypted password: " << this->decryptedText << std::endl;
 	}
 };
 
 
 int main() {
-	std::string sifre;
-	std::cout << "*** sifre kodlayici ***" << std::endl;
-	std::cout << "sifre giriniz: ";
-	std::cin >> sifre; // kullanicidan sifre girdisi aliniyor
-	Password ps(sifre); // constructor kullanilarak Password classinda yeni bir obje tanimlaniyor
-	ps.getPrimes(); // girilen sifrenin uzunluguna x dersek, 2'den x'e kadar olan asal sayilari ekrana yazdiriyoruz
-	ps.encryption(); // sifre kodlaniyor(encryption)
-	ps.getPassword(); // sifre ekrana basiliyor
-	ps.unencryption(); // sifre eski haline getiriliyor(unencryption)
-	ps.getPassword(); // sifre ekrana basiliyor
-
+	std::string password;
+	std::cout << "*** Password Encypter/Decrypter ***" << std::endl;
+	std::cout << "Enter a password: ";
+	std::cin >> password; 
+	Password ps(password);
+	//ps.PrintPrimes(); // x is length of password,this func prints the prime numbers between [2,x]
+	short ed;
+	std::cout << "1.Encrypt password\n2.Decrypt password\nYour choice: ";
+	std::cin >> ed;
+	switch (ed) {
+	case 1:
+		ps.Encrypt();
+		break;
+	case 2:
+		ps.Decrypt();
+		break;
+	default:
+		std::cout << "Error. Invalid input entered." << std::endl;
+		break;
+	}
 	return 0;
 }
